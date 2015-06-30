@@ -1,0 +1,81 @@
+- name: configure firewall for cassandra
+  firewalld:
+    zone=public
+    port={{item}}/tcp
+    state=enabled
+    permanent=true
+  with_items:
+    - 7000
+    - 7001
+    - 7199
+    - 9042
+    - 9160
+  tags: firewall
+
+- name: configure firewall for cassandra opscenter
+  firewalld:
+    zone=public
+    port={{item}}/tcp
+    state=enabled
+    permanent=true
+  with_items:
+    - 61620
+    - 61621
+    - 8888
+  tags: firewall
+
+
+- name: restart firewall
+  service: name=firewalld state=restarted enabled=true
+  tags: firewall
+
+- name: add datastax repo
+  template:
+    src=dstaxrepo
+    dest=/etc/yum.repos.d/datastax.repo
+    owner=root
+    mode=0644
+  tags: cassandra
+
+- name: stop cassandra
+  service: name=cassandra state=stopped
+  tags: cassandra
+
+- name: clear the cassandra data
+  shell: "{{item}}"
+  with_items:
+    - rm -rf /var/lib/cassandra/data/*
+    - rm -rf /var/lib/cassandra/saved_caches/*
+    - rm -rf /var/lib/cassandra/commitlog/*
+  tags: cassandra
+
+
+- name: install cassandra and tools
+  yum: pkg={{item}} state=present
+  with_items:
+    - dsc20-2.0.13-1
+    - cassandra20
+  tags: cassandra
+  
+- name: stop cassandra
+  service: name=cassandra state=stopped
+  tags: cassandra
+
+
+- name: configure cassandra.yaml
+  template: 
+    src=cassandra.j2
+    dest=/etc/cassandra/conf/cassandra.yaml
+    owner=root
+    mode=0644
+  tags: cassandra
+
+- name: start service cassandra seeds
+  service: name=cassandra state=started
+  when: ansible_hostname == "retail05" or ansible_hostname == "retail06"
+
+- name: start service cassandra nodes
+  service: name=cassandra state=started
+  when: ansible_hostname == "retail07" or ansible_hostname == "retail04"
+
+

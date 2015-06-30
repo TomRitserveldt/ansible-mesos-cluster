@@ -1,0 +1,31 @@
+---
+# file: group_vars/all
+ntp: "0.be.pool.ntp.org"
+backup: "1.be.pool.ntp.org"
+drift_file: "/var/lib/ntp/drift"
+ntp_enabled: "yes"
+
+# group_vars/all mesos vars
+cluster_name: "ClusterName"
+master_server_ip: "Enter_master_ip"
+
+# cassandra servers, cass_seed are the cassandra seeds.
+cass_seed1: "node1"
+cass_seed2: "node2"
+cass_node1: "node3"
+cass_node2: "node4"
+
+﻿# group_vars/all dhcp vars
+network_domains:
+  - name: "domain.name"
+    network_address: "network_address"
+    netmask: "255.255.255.0"
+    default_gateway: "gateway"
+    dns_server: "dns_1,dns_2"
+    default_lease: "86400"
+    max_lease: "172800"
+
+hosts_reserved:
+  - name: "node1"
+    mac_address: "FF:FF:FF:FF:FF:FF"
+    ip_address: "192.168.0.1"

@@ -1,0 +1,229 @@
+option domain-name "UGent.be";
+default-lease-time 600;
+max-lease-time 7200;
+
+
+# subnet 157.193.218.0 netmask 255.255.254.0 {
+   # option routers                  157.193.219.254;
+   # option subnet-mask              255.255.254.0;
+   # option domain-search              "UGent.be";
+   # deny unknown-clients;
+   # option domain-name-servers       157.193.71.1,157.193.40.42;
+
+    # host retail.0 {
+      # option host-name "retail.UGent.be";
+      # hardware ethernet BC:30:5B:CE:3A:AC;
+      # fixed-address 157.193.218.108;
+   # }
+    # host retail01.0 {
+      # option host-name "retail01.UGent.be";
+      # hardware ethernet 00:22:19:C8:18:D7;
+      # fixed-address 157.193.218.43;
+   # }
+    # host retail02.0 {
+      # option host-name "retail02.UGent.be";
+      # hardware ethernet 00:22:19:C4:EA:67;
+      # fixed-address 157.193.218.59;
+   # }
+    # host retail03.0 {	
+      # option host-name "retail03.UGent.be";
+      # hardware ethernet 00:22:19:C8:15:81;
+      # fixed-address 157.193.218.61;     
+   # }
+    # host retail04.0 {
+      # option host-name "retail04.UGent.be";
+      # hardware ethernet 00:22:19:C8:18:A4;
+      # fixed-address 157.193.218.99;      
+   # }
+    # host retail05.0 {
+      # option host-name "retail05.UGent.be";
+      # hardware ethernet 00:22:19:C4:ED:27;
+      # fixed-address 157.193.218.174;      
+   # }   
+    # host retail06.0 {
+      # option host-name "retail06.UGent.be";
+      # hardware ethernet 00:22:19:C8:15:BF;
+      # fixed-address 157.193.218.105;      
+   # }
+    # host retail07.0 {
+      # option host-name "retail07.UGent.be";
+      # hardware ethernet 00:22:19:C8:18:F5;
+      # fixed-address 157.193.218.107;      
+   # }
+# }
+
+subnet 10.11.12.0 netmask 255.255.255.0 {
+   option routers                  10.11.12.100;
+   option subnet-mask              255.255.255.0;
+   option domain-search              "UGent.be";
+   deny unknown-clients;
+   option domain-name-servers       157.193.71.1,157.193.40.42;
+   
+   host retail.0 {
+      option host-name "retail.UGent.be";
+      hardware ethernet BC:30:5B:CE:3A:AC;
+      fixed-address 10.11.12.101;
+   }
+
+   host retail.1 {
+      option host-name "retail.UGent.be";
+      hardware ethernet BC:30:5B:CE:3A:AE;
+      fixed-address 10.11.12.102;
+   }
+   
+   host retail.2 {
+      option host-name "retail.UGent.be";
+      hardware ethernet BC:30:5B:CE:3A:B0;
+      fixed-address 10.11.12.103;
+   }   
+   host retail.3 {
+      option host-name "retail.UGent.be";
+      hardware ethernet BC:30:5B:CE:3A:B2;
+      fixed-address 10.11.12.104;
+   }
+    host retail01.0 {
+      option host-name "retail01.UGent.be";
+      hardware ethernet 00:22:19:C8:18:D7;
+      fixed-address 10.11.12.110;
+   }
+   
+    host retail01.1 {
+      option host-name "retail01.UGent.be";
+      hardware ethernet 00:22:19:C8:18:D9;
+      fixed-address 10.11.12.111;
+   }
+    host retail01.2 {
+      option host-name "retail01.UGent.be";
+      hardware ethernet 00:22:19:C8:18:DB;
+      fixed-address 10.11.12.112;
+   }
+    host retail01.3 {
+      option host-name "retail01.UGent.be";
+      hardware ethernet 00:22:19:C8:18:DD;
+      fixed-address 10.11.12.113;
+   }
+    host retail02.0 {
+      option host-name "retail02.UGent.be";
+      hardware ethernet 00:22:19:C4:EA:67;
+      fixed-address 10.11.12.120;
+   }
+
+    host retail02.1 {
+	    option host-name "retail02.UGent.be";
+      hardware ethernet 00:22:19:C4:EA:69;
+      fixed-address 10.11.12.121;
+   }
+    host retail02.2 {
+	    option host-name "retail02.UGent.be";
+      hardware ethernet 00:22:19:C4:EA:6B;
+      fixed-address 10.11.12.122;
+   }
+    host retail02.3 {
+	    option host-name "retail02.UGent.be";
+      hardware ethernet 00:22:19:C4:EA:6D;
+      fixed-address 10.11.12.123;
+   }
+    host retail03.0 {
+      option host-name "retail03.UGent.be";
+      hardware ethernet 00:22:19:C8:15:81;
+      fixed-address 10.11.12.130;
+   }
+    host retail03.1 {	
+      option host-name "retail03.UGent.be";
+      hardware ethernet 00:22:19:C8:15:83;
+      fixed-address 10.11.12.131;     
+   } 
+    host retail03.2 {	
+      option host-name "retail03.UGent.be";
+      hardware ethernet 00:22:19:C8:15:85;
+      fixed-address 10.11.12.132;     
+   } 
+    host retail03.3 {	
+      option host-name "retail03.UGent.be";
+      hardware ethernet 00:22:19:C8:15:87;
+      fixed-address 10.11.12.133;     
+   } 
+    host retail04.0 {
+      option host-name "retail04.UGent.be";
+      hardware ethernet 00:22:19:C8:18:A4;
+      fixed-address 10.11.12.140;
+   }
+    host retail04.1 {
+      option host-name "retail04.UGent.be";
+      hardware ethernet 00:22:19:C8:18:A6;
+      fixed-address 10.11.12.141;      
+   }
+    host retail04.2 {
+      option host-name "retail04.UGent.be";
+      hardware ethernet 00:22:19:C8:18:A8;
+      fixed-address 10.11.12.142;      
+   }
+    host retail04.3 {
+      option host-name "retail04.UGent.be";
+      hardware ethernet 00:22:19:C8:18:AA;
+      fixed-address 10.11.12.143;      
+   }
+    host retail05.0 {
+      option host-name "retail05.UGent.be";
+      hardware ethernet 00:22:19:C4:ED:27;
+      fixed-address 10.11.12.150;
+   }
+    host retail05.1 {
+      option host-name "retail05.UGent.be";
+      hardware ethernet 00:22:19:C4:ED:29;
+      fixed-address 10.11.12.151;      
+   }   
+    host retail05.2 {
+      option host-name "retail05.UGent.be";
+      hardware ethernet 00:22:19:C4:ED:2B;
+      fixed-address 10.11.12.152;      
+   }     
+    host retail05.3 {
+      option host-name "retail05.UGent.be";
+      hardware ethernet 00:22:19:C4:ED:2D;
+      fixed-address 10.11.12.153;      
+   }
+    host retail06.0 {
+      option host-name "retail06.UGent.be";
+      hardware ethernet 00:22:19:C8:15:BF;
+      fixed-address 10.11.12.160;
+   }
+     
+    host retail06.1 {
+      option host-name "retail06.UGent.be";
+      hardware ethernet 00:22:19:C8:15:C1;
+      fixed-address 10.11.12.161;      
+   }
+    host retail06.2 {
+      option host-name "retail06.UGent.be";
+      hardware ethernet 00:22:19:C8:15:C3;
+      fixed-address 10.11.12.162;      
+   }
+    host retail06.3 {
+      option host-name "retail06.UGent.be";
+      hardware ethernet 00:22:19:C8:15:C5;
+      fixed-address 10.11.12.163;      
+   }
+    host retail07.0 {
+      option host-name "retail07.UGent.be";
+      hardware ethernet 00:22:19:C8:18:F5;
+      fixed-address 10.11.12.170;
+   }
+
+    host retail07.1 {
+      option host-name "retail07.UGent.be";
+      hardware ethernet 00:22:19:C8:18:F7;
+      fixed-address 10.11.12.171;      
+   }
+    host retail07.2 {
+      option host-name "retail07.UGent.be";
+      hardware ethernet 00:22:19:C8:18:F9;
+      fixed-address 10.11.12.172;      
+   }
+    host retail07.3 {
+      option host-name "retail07.UGent.be";
+      hardware ethernet 00:22:19:C8:18:FB;
+      fixed-address 10.11.12.173;      
+   }
+   
+   }

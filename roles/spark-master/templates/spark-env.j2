@@ -1,0 +1,23 @@
+export SPARK_WORKER_CORES="8"
+export SPARK_WORKER_MEMORY="20g"
+export SPARK_DRIVER_MEMORY="10g"
+export SPARK_REPL_MEM="2g"
+export SPARK_WORKER_PORT=9000
+export SPARK_CONF_DIR="/usr/local/spark/conf"
+export SPARK_TMP_DIR="/srv/spark/tmp"
+export SPARK_PID_DIR="/srv/spark/pids"
+export SPARK_LOG_DIR="/srv/spark/logs"
+export SPARK_WORKER_DIR="/srv/spark/work"
+export SPARK_LOCAL_DIRS="/srv/spark/tmp"
+export SPARK_COMMON_OPTS="$SPARK_COMMON_OPTS -Dspark.kryoserializer.buffer.mb=32 " LOG4J="-Dlog4j.configuration=file://$SPARK_CONF_DIR/log4j.properties"
+export SPARK_MASTER_OPTS=" $LOG4J -Dspark.log.file=/srv/spark/logs/master.log "
+export SPARK_WORKER_OPTS=" $LOG4J -Dspark.log.file=/srv/spark/logs/worker.log "
+export SPARK_EXECUTOR_OPTS=" $LOG4J -Djava.io.tmpdir=/srv/spark/tmp/executor "
+export SPARK_REPL_OPTS=" -Djava.io.tmpdir=/srv/spark/tmp/repl/\$USER "
+export SPARK_APP_OPTS=" -Djava.io.tmpdir=/srv/spark/tmp/app/\$USER "
+export PYSPARK_PYTHON="/usr/bin/python"
+SPARK_PUBLIC_DNS="127.0.0.1"
+export SPARK_WORKER_INSTANCES=2
+export MESOS_NATIVE_LIBRARY="/usr/local/lib/libmesos.so"
+export MASTER="mesos://127.0.0.1:5050"
+

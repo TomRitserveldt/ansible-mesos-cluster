@@ -1,0 +1,21 @@
+cluster_name: 'MyCassandraCluster'
+num_tokens: 256
+seed_provider:
+  - class_name: org.apache.cassandra.locator.SimpleSeedProvider
+    parameters:
+         - seeds: "10.11.12.150,10.11.12.160"
+listen_address: {{ ansible_all_ipv4_addresses[1] }}
+incremental_backups: true
+rpc_address: {{ ansible_all_ipv4_addresses[1] }}
+rpc_port: 9160
+#broadcast_rpc_address: {{ ansible_all_ipv4_addresses[1] }}
+endpoint_snitch: GossipingPropertyFileSnitch
+commitlog_sync: periodic
+commitlog_sync_period_in_ms: 10000
+data_file_directories:
+    - /var/lib/cassandra/data
+commitlog_directory: /var/lib/cassandra/commitlog
+saved_caches_directory: /var/lib/cassandra/saved_caches
+start_native_transport: true
+native_transport_port: 9042
+partitioner: org.apache.cassandra.dht.RandomPartitioner

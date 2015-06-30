@@ -1,0 +1,21 @@
+- name: install tigervnc
+  yum: name=tigervnc-server state=present
+  tags: vnc
+
+- name: Copy the default password file
+  template: src=password.j2 dest=/tmp/password
+
+- name: set vnc password
+  shell: vncpasswd </tmp/password >/tmp/vncpasswd.1 2>/tmp/vncpasswd.2
+  tags: vnc
+
+- name: configure firewall for the slave(allow port 5051)
+  firewalld:
+    zone=public
+    service=vnc-server
+    state=enabled
+    permanent=true
+  tags: firewall
+#- name: start vnc server on display 1
+#  shell: vncserver :1
+#  tags: vnc

@@ -1,0 +1,53 @@
+# roles/mesos/tasks/main.yml
+---
+- name: install java openjdk 7
+  yum: name=java-1.7.0-openjdk-devel state=present
+  tags: mesos
+
+- name: install the nginx rpm from a remote repo
+  yum: name=http://repos.mesosphere.io/el/7/noarch/RPMS/mesosphere-el-repo-7-1.noarch.rpm state=present
+  tags: mesos
+
+- name: install mesos
+  yum: name=mesos state=present
+  tags: mesos
+
+- name: configure zookeeper with master ip
+  template: 
+    src=zk
+    dest=/etc/mesos/zk
+    owner=root
+    mode=0644
+  tags: mesos
+
+- name: configure mesos-slave to include cassandra ports
+  shell: echo 'ports(*):[31000-32000,7000-7001,7199-7199,9042-9042,9160-9160]' > /etc/mesos-slave/resources
+
+- name: remove mesos-slave tmp slave recovery file(otherwise mesos-slave will fail at restart)
+  shell: rm -f /tmp/mesos/meta/slaves/latest removes=/tmp/mesos/meta/slaves/latest
+
+- name: stop mesos-master service
+  service: name=mesos-master state=stopped enabled=no
+  tags: mesos
+
+- name: restart mesos-slave service to use new config
+  service: name=mesos-slave state=restarted enabled=yes
+  tags: mesos
+
+- name: enable firewall
+  service: name=firewalld state=running enabled=true
+  tags: firewall
+
+- name: configure firewall for the slave(allow port 5051)
+  firewalld:
+    zone=public
+    port=5051/tcp
+    state=enabled
+    permanent=true
+  tags: firewall
+
+- name: restart firewall
+  service: name=firewalld state=restarted enabled=true
+  tags: firewall
+
+

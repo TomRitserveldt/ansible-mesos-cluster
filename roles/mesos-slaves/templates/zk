@@ -1,0 +1,1 @@
+zk://{{ master_server_ip }}:2181/mesos

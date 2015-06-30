@@ -1,0 +1,39 @@
+# roles/gateway/tasks/main.yml
+---
+- name: Install dhcp packages
+  yum: pkg={{item}} state=installed
+  with_items:
+    - dhcp
+  tags: gateway
+  
+- name: Configure DHCP server
+  template: 
+    src={{ item[0] }} 
+    dest=/{{ item[1] }} 
+    owner=root 
+    group=root 
+    mode=0644
+  with_nested: 
+    - [ 'dhcp-server.j2' ]
+    - [ 'etc/dhcp/dhcpd.conf' ]
+  notify: Restart dhcp-server
+  tags: gateway
+
+- name: enable ip forwarding
+  sysctl: name="net.ipv4.ip_forward" value=1 sysctl_set=yes state=present reload=yes
+  tags: gateway
+
+- name: setup internal zone in firewall
+  shell: "firewall-cmd --permanent --zone=internal --change-interface={{ ansible_interfaces[1] }}"
+  tags: gateway
+
+- name: setup external zone in firewall
+  shell: "firewall-cmd --permanent --zone=external --change-interface={{ ansible_interfaces[2] }}"
+  tags: gateway
+
+- name: setup masuerading in firewall
+  shell: firewall-cmd --zone=external --add-masquerade
+  tags: gateway
+
+- name: Restart firewalld
+  service: name=firewalld state=restarted

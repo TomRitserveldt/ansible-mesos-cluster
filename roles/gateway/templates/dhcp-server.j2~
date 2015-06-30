@@ -1,0 +1,38 @@
+#
+# DHCP Server Configuration file.
+#   see /usr/share/doc/dhcp*/dhcpd.conf.example
+#   see dhcpd.conf(5) man page
+#
+ddns-update-style none;
+ignore client-updates;
+
+lease-file-name "/var/lib/dhcpd/dhcpd.leases";
+authoritative;
+{% for domain in network_domains %}
+
+option domain-name                      "{{ domain.name }}";
+default-lease-time                      {{ domain.default_lease }};   # 24 hours
+max-lease-time                          {{ domain.max_lease }};  # 48 hours
+
+
+subnet {{ domain.network_address }} netmask {{ domain.netmask }} {
+        option routers                  {{ domain.default_gateway }};
+        option subnet-mask              {{ domain.netmask }};
+        option domain-search             "{{ domain.name }}";
+        option domain-name-servers       {{ domain.dns_server }};
+        option time-offset              -18000;     # Eastern Standard Time
+	      deny unknown-clients;
+}
+
+
+  {% for host in hosts_reserved %}
+
+  host {{ host.name }} {
+     option host-name "{{ host.name }}.{{ domain.name }}";
+     hardware ethernet {{ host.mac_address }};
+     fixed-address {{ host.ip_address }};
+  }
+
+  {% endfor %}
+
+{% endfor %}

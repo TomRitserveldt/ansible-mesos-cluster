@@ -1,0 +1,1 @@
+zk://{{ ansible_all_ipv4_addresses[0] }}:2181/mesos

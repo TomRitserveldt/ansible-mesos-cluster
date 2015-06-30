@@ -1,0 +1,108 @@
+# roles/mesos/tasks/main.yml
+---
+- name: install java openjdk 7
+  yum: name=java-1.7.0-openjdk-devel state=present
+  tags: mesos
+
+- name: install the nginx rpm from a remote repo
+  yum: name=http://repos.mesosphere.io/el/7/noarch/RPMS/mesosphere-el-repo-7-1.noarch.rpm state=present
+  tags: mesos
+
+- name: install mesos
+  yum: name={{item}} state=present
+  with_items:
+    - mesos
+    - marathon
+    - mesosphere-zookeeper
+  tags: mesos
+
+- name: enable firewall
+  service: name=firewalld state=running enabled=true
+  tags: firewall
+
+- name: configure firewall for the master
+  firewalld:
+    zone=public
+    port={{item}}/tcp
+    state=enabled
+    permanent=true
+  with_items:
+    - 61620
+    - 61621
+    - 2181
+    - 8888
+    - 5050
+    - 8899 
+  tags: firewall
+
+- name: restart firewall
+  service: name=firewalld state=restarted enabled=true
+  tags: firewall
+
+- name: set MyId
+  shell: echo 1 > /var/lib/zookeeper/myid
+  tags: mesos
+
+- name: add master ip to zoo.cfg
+  template: 
+    src=zoo
+    dest=/etc/zookeeper/conf/zoo.cfg
+    owner=root
+    mode=0644
+  tags: mesos
+
+- name: configure zookeeper with master ip
+  template: 
+    src=zk
+    dest=/etc/mesos/zk
+    owner=root
+    mode=0644
+  tags: mesos
+
+- name: start zookeeper
+  service: name=zookeeper state=restarted enabled=yes
+  tags: mesos
+
+- name: set quorum to a number >(number of masters/2)
+  shell: echo 1 > /etc/mesos-master/quorum
+  tags: mesos
+
+- name: set the master hostname
+  shell: cat /etc/hostname > /etc/mesos-master/hostname
+  tags: mesos
+
+- name: set the master ip
+  shell: echo 10.11.12.101 > /etc/mesos-master/ip
+  tags: mesos
+
+- name: set a human readable name for the cluster
+  shell: echo RetailCluster > /etc/mesos-master/cluster
+  tags: mesos
+
+- name: stop mesos-slave service
+  service: name=mesos-slave state=stopped enabled=no
+  tags: mesos
+
+- name: restart mesos-master service to use new config
+  service: name=mesos-master state=restarted enabled=yes
+  tags: mesos
+
+- name: add datastax repo
+  template:
+    src=dstaxrepo
+    dest=/etc/yum.repos.d/datastax.repo
+    owner=root
+    mode=0644
+  tags: cassandra
+
+- name: install opscenter and tools
+  yum: name={{item}} state=present
+  with_items:
+    - opscenter
+    - dsc20-2.0.13-1
+    - cassandra20
+  tags: cassandra
+  
+- name: stop cassandra
+  service: name=cassandra state=stopped
+  tags: cassandra

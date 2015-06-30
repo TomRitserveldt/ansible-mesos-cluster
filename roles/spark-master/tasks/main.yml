@@ -1,0 +1,41 @@
+- name: install the sbt rpm from a remote repo
+  yum: name=https://dl.bintray.com/sbt/rpm/sbt-0.13.8.rpm state=present
+  tags: spark
+
+- name: install sbt
+  yum: name=sbt state=present
+  tags: spark
+
+- name: install git
+  yum: name=git state=present
+  tags: spark
+
+- name: Creates spark installation directory
+  file: path=/root/spark state=directory
+  tags: spark
+
+- name: download foo.conf
+  get_url: url=http://archive.apache.org/dist/spark/spark-1.2.0/spark-1.2.0.tgz dest=/root/spark/spark-1.2.0.tgz mode=0440
+  tags: spark
+
+- name: unzip the tar
+  unarchive: src=/root/spark/spark-1.2.0.tgz dest=/root/spark/ copy=no
+  tags: spark
+
+- name: build sbt
+  shell: sbt/sbt assembly chdir=/root/spark/spark-1.2.0/
+  tags: spark
+
+- name: copy spark folder to /usr/local/
+  shell: cp -a /root/spark/spark-1.2.0/ /usr/local/spark/
+  tags: spark
+
+- name: add group spark
+  group: name=spark state=present
+
+- name: Add the user spark with a primary group of spark
+  user: name=spark comment="Spark user" group=spark
+
+- name: give user spark sudo rights
+  user: name=spark home=/home/spark shell=/bin/bash groups=wheel append=yes
+

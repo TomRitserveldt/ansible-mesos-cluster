@@ -1,0 +1,25 @@
+# site.yml
+---
+- hosts: slaves
+  remote_user: root
+  roles:
+    - common
+    - ntp
+    - mesos-slaves
+    - cassandra-nodes
+
+- hosts: masters
+  remote_user: root
+  roles:
+    - common
+    - ntp
+    - mesos-master
+    - vnc
+
+- hosts: gate
+  remote_user: root
+  roles:
+    - common
+    - ntp
+    - gateway
+    - vnc
